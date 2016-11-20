@@ -1,0 +1,41 @@
+{
+
+
+"manifest_version": 2,
+"name": "Pikachu Run",
+"version": "0.1",
+
+"icons":
+{
+ "128": "128.png",
+ "48": "48.png",
+ "16": "16.png"
+ },
+
+
+"content_scripts": [
+{
+	"matches": [
+		"<all_urls>"
+		   ],
+	"js": ["content.js"]
+	}
+],
+
+
+"browser_action": {
+   "default_icon": "16.png"
+  },
+
+"background": {
+	"scripts": ["background.js"],
+	"persistent": true
+  },
+
+"permissions": ["tabs", "storage"],
+
+"web_accessible_resources": [
+    "spritesheet.png"
+ ]
+
+}
