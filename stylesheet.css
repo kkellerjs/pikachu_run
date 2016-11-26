@@ -1,0 +1,69 @@
+
+#box{
+  width: 200px;
+  display: inline-block; 
+  padding: 5px;
+  background-color: beige;
+  text-align: center;
+  font-family: Helvetica;
+  font-weight: 100;
+  color: #b25615;
+
+}
+
+#head {
+ text-transform: uppercase;
+ padding: 5px;
+ font-size: 1em;
+ text-shadow: 0.4px 0.4px black;
+}
+
+#category {
+ font-size: 0.8em;
+ color: #800000;
+ text-transform: uppercase;
+ font-weight: 150;
+}
+
+.speed {
+ font-size: 0.9em;
+ font-weight: 200;
+}
+
+
+
+
+/***** pokemon pics ********/
+
+#pika {
+  width: 60px;
+  height: 60px;
+  opacity: 0.6;
+  margin-bottom: -7px;
+}
+
+.poke {
+	display: inline-block;
+	padding: 3px;
+	margin: 10px 0;
+	color: #DCDCC6;
+}
+
+.poke-pic{
+  
+  padding: 5px;
+  width: 45px; 
+  border-radius: 50%; 
+  border: 1px solid white;
+  background-color: white;
+  opacity: 0.3;
+}
+
+input {
+  margin: 15px 0;
+}
+
+
+.selected {
+ opacity: 0.8;
+}
