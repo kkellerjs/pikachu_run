@@ -65,9 +65,9 @@ function runScript(ppf, mpf) {
 
 	//append a canvas to the body
 	var canvasDiv = document.createElement("div");
-	canvasDiv.innerHTML = "<div id='div1'><canvas id='canvas'></canvas></div>";
+	canvasDiv.innerHTML = "<div><canvas id='wazrhhymzzypttvbrxybvfohbeidgapnfmhx'></canvas></div>";
 	document.body.insertBefore(canvasDiv, document.body.firstChild);
-	var canvas = document.getElementById("canvas");
+	var canvas = document.getElementById("wazrhhymzzypttvbrxybvfohbeidgapnfmhx");
 	var ctx = canvas.getContext("2d");
 	canvas.style.position = "absolute";
 	ctx.canvas.width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
@@ -98,55 +98,62 @@ function runScript(ppf, mpf) {
 //............FUNCTIONS........................................
 
 
-
- //---------------------------------
  function walk_pika() {
 
   //create 1st image
   var pika = new Image();
    pika.onload = function() {
-   ctx.drawImage(pika, imageX, imageY, frameWidth, frameHeight, pointX, pointY, frameWidth, frameHeight);
-   var walking = setInterval(next_frame, mpf);
-   var pikaOffscreen = false;
+     pikaLoaded();
    }
+   
   pika.src = chrome.extension.getURL("images/spritesheet.png"); 
   
   
-  //var walking = setInterval(next_frame, mpf);
-  var pikaOffscreen = false;
   
-  //check 3 times to see if offscreen, then clear interval
-  var checkHeGone = setTimeout(clear_all, 3000);
-  var checkHeGone2 = setTimeout(clear_all, 5000);
-  var checkHeGone3 = setTimeout(clear_all, 10000);
   
-  //---------------------------------
-  function next_frame() {
+  
+   function pikaLoaded() {
    
-   if (imageX == 175.5) {
-    imageX = 6;
-   } else {
-    imageX+=56.5;
-   }
-   pointX += ppf;
+   // console.log("Pika loaded. Drawing image.");
+   
+ 	ctx.drawImage(pika, imageX, imageY, frameWidth, frameHeight, pointX, pointY, frameWidth, frameHeight);
+    
+    var walking = setInterval(next_frame, mpf);
+    var pikaOffscreen = false;
   
-   ctx.clearRect(0, 0, canvas.width, canvas.height);
-   ctx.drawImage(pika, imageX, imageY, frameWidth, frameHeight, pointX, pointY, frameWidth, frameHeight);
-  }
+  	//check 3 times to see if offscreen, then clear interval
+  	var checkHeGone = setTimeout(clear_all, 3000);
+ 	var checkHeGone2 = setTimeout(clear_all, 5000);
+ 	var checkHeGone3 = setTimeout(clear_all, 10000);
   
-  //---------------------------------
-  //when pika is offscreen, clear interval & delete canvas
+  	//---------------------------------
+  	function next_frame() {
+   
+  	 if (imageX == 175.5) {
+    	imageX = 6;
+   	} else {
+   	 imageX+=56.5;
+   	}
+   	pointX += ppf;
   
-  function clear_all() {
-   if (pointX > ctx.canvas.width && !pikaOffscreen) {
-    pikaOffscreen = true;
-    clearInterval(walking);
-    canvasDiv.innerHTML = "";
-   }
-  } 
-
-  }//---------------------------------
+   	ctx.clearRect(0, 0, canvas.width, canvas.height);
+   	ctx.drawImage(pika, imageX, imageY, frameWidth, frameHeight, pointX, pointY, frameWidth, frameHeight);
+  	}
   
+  	//---------------------------------
+  	//when pika is offscreen, clear interval & delete canvas/its parent div
   
-  
-} //---------------------------
+  	function clear_all() {
+    	if (pointX > ctx.canvas.width && !pikaOffscreen) {
+   		 pikaOffscreen = true;
+    	 clearInterval(walking);
+    	 canvasDiv.parentNode.removeChild(canvasDiv);
+    	// console.log("Pika offscreen. cleared interval & div.");
+   		}
+  	} 
+  	
+  	
+  	
+   } //-----end of pika image loaded function
+  }//------end of walk pika function
+} //------end of complete run script function
