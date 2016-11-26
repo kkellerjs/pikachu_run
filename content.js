@@ -1,38 +1,67 @@
 
+//retrieve pikachu settings & set defaults
 
-//retrieve on/off setting
+var storage = chrome.storage.local;
+var mpf, ppf, maxInt;
+var obj = {};
 
-chrome.storage.local.get("onOff", function(data) {
 
-	//if nothing set, set to on
-	if (data.onOff == undefined) {
-	 chrome.storage.local.set({"onOff": "on"}, function(){});
-	 maybe_run_script();
-	}
+storage.get(["ppf", "mpf", "maxInt"], function(items) {
 
-    if(data.onOff === "on") {
-     maybe_run_script();
-    }
-    
+ ppf = items.ppf; //pixels of movement per frame
+ mpf = items.mpf; //milliseconds per frame
+ maxInt = items.maxInt; //i.e. 1 out of maxInt chance of appearing
+ 
+ if (ppf == undefined) {  
+  ppf = 40;
+  mpf = 120;
+  obj.ppf = ppf;
+  obj.mpf = mpf;
+  storage.set(obj);
+ }
+ 
+ if (maxInt == undefined) {
+  maxInt = 4;
+  obj.maxInt = maxInt;
+  storage.set(obj);
+ }
+ 
+ maybe_run_script(maxInt, ppf, mpf); 
+ 
 });
 
 
 
 
-//   1/3 chance of pika coming out
 
-function maybe_run_script() {
- var num = Math.floor(Math.random() * 3) + 1;
+
+
+//-----FUNCTIONS----------------------------------------------------------
+
+//run script based on % chance
+
+function maybe_run_script(maxInt, ppf, mpf) {
+
+ //testing stored vals
+ //console.log("there is a one out of " + maxInt + " chance that pika will come out.");
+ //console.log("Pika will move " + ppf + " pixels per frame every " + mpf + " milliseconds.");
+
+
+ var num = Math.floor(Math.random() * maxInt) + 1;
   if (num == 2) {
-   //timeout for DOM load
-   setTimeout(runScript, 300);
+  
+   //extra timeout on DOM load
+   setTimeout(function() {
+    runScript(ppf, mpf);
+   }, 300);
   }
 }
 
 
 
 
-function runScript() {
+
+function runScript(ppf, mpf) {
 
 	//append a canvas to the body
 	var canvasDiv = document.createElement("div");
@@ -58,9 +87,11 @@ function runScript() {
 	var pointX = 0;
 	var pointY = Math.floor(Math.random() * (ctx.canvas.height-(frameHeight+10))) + (frameHeight+10);
 
-
-
 	 walk_pika();
+
+
+
+
 
 
 
@@ -73,13 +104,15 @@ function runScript() {
 
   //create 1st image
   var pika = new Image();
-  pika.onload = function() {
-  ctx.drawImage(pika, imageX, imageY, frameWidth, frameHeight, pointX, pointY, frameWidth, frameHeight);
+   pika.onload = function() {
+   ctx.drawImage(pika, imageX, imageY, frameWidth, frameHeight, pointX, pointY, frameWidth, frameHeight);
+   var walking = setInterval(next_frame, mpf);
+   var pikaOffscreen = false;
    }
-  pika.src = chrome.extension.getURL("spritesheet.png"); 
+  pika.src = chrome.extension.getURL("images/spritesheet.png"); 
   
   
-  var walking = setInterval(next_frame, 90);
+  //var walking = setInterval(next_frame, mpf);
   var pikaOffscreen = false;
   
   //check 3 times to see if offscreen, then clear interval
@@ -95,7 +128,7 @@ function runScript() {
    } else {
     imageX+=56.5;
    }
-   pointX += 10;
+   pointX += ppf;
   
    ctx.clearRect(0, 0, canvas.width, canvas.height);
    ctx.drawImage(pika, imageX, imageY, frameWidth, frameHeight, pointX, pointY, frameWidth, frameHeight);
