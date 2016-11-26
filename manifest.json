@@ -2,14 +2,15 @@
 
 
 "manifest_version": 2,
-"name": "Pikachu Run",
-"version": "0.1",
+"name": "Hello Pikachu",
+"version": "1.3",
+"description": "Watch Pikachu run across your webpages!",
 
 "icons":
 {
- "128": "128.png",
- "48": "48.png",
- "16": "16.png"
+ "128": "images/128.png",
+ "48": "images/48.png",
+ "16": "images/16.png"
  },
 
 
@@ -24,7 +25,8 @@
 
 
 "browser_action": {
-   "default_icon": "16.png"
+   "default_icon": "images/16.png",
+   "default_popup": "popup.html"
   },
 
 "background": {
@@ -35,7 +37,7 @@
 "permissions": ["tabs", "storage"],
 
 "web_accessible_resources": [
-    "spritesheet.png"
+    "images/spritesheet.png"
  ]
 
 }
