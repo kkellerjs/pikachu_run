@@ -29,11 +29,6 @@
    "default_popup": "popup.html"
   },
 
-"background": {
-	"scripts": ["background.js"],
-	"persistent": true
-  },
-
 "permissions": ["tabs", "storage"],
 
 "web_accessible_resources": [
