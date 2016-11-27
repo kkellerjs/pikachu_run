@@ -9,11 +9,12 @@ storage.get(["ppf", "maxInt"], function(items) {
 var defSpeed = items.ppf;
 var maxInt = items.maxInt;
 
-if (defSpeed == 40) { 
+if (defSpeed == 40 || defSpeed == undefined) { 
   select_icon(document.getElementById("fast"));
 } else {
   select_icon(document.getElementById("slow"));
 }
+
 
 //de-translate frequency value into range points
 var sliderValue;
@@ -23,6 +24,8 @@ switch(maxInt) {
  case 10: sliderValue = "11"; break;
  case 4: sliderValue = "21"; break;
  case 2: sliderValue = "31"; break;
+ //in case of initial load not firing content script first--set at 25%
+ default: sliderValue = "21"; break;
 }
 
 update_slider(sliderValue);
